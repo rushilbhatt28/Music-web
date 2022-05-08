@@ -13,8 +13,8 @@ function App() {
   useEffect(() => {
     const hash = getTokenFromUrl();
     window.location.hash = "";
-
     const _token = hash.access_token;
+
     if (_token) {
       dispatch({
         type: "SET_TOKEN",
@@ -27,12 +27,22 @@ function App() {
           user: user,
         });
       });
+      spotify.getUserPlaylists().then((playlists) => {
+        dispatch({
+          type: "SET_PLAYLIST",
+          playlists: playlists,
+        });
+      });
     }
   }, []);
   console.log(user);
   console.log(token);
 
-  return <div className="App">{token ? <Player spotify={spotify} /> : <Login />}</div>;
+  return (
+    <div className="App">
+      {token ? <Player spotify={spotify} /> : <Login />}
+    </div>
+  );
 }
 
 export default App;
