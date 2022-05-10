@@ -2,6 +2,7 @@ import React from "react";
 import "../assets/Player.css";
 import Body from "./Body";
 import SideBar from "../sideBar/sideBar";
+import Header from "../Header/Header";
 import Footer from "../footer/Footer";
 function Player({ spotify }) {
   return (
@@ -9,6 +10,7 @@ function Player({ spotify }) {
       <div className="player__body">
         <SideBar />
         <Body />
+        <Header />
       </div>
       <Footer />
     </div>
