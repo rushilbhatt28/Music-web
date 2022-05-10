@@ -27,12 +27,31 @@ function App() {
           user: user,
         });
       });
+
+      spotify.getMyTopArtists().then((response) =>
+        dispatch({
+          type: "SET_TOP_ARTISTS",
+          top_artists: response,
+        })
+      );
+
+      dispatch({
+        type: "SET_SPOTIFY",
+        spotify: spotify,
+      });
       spotify.getUserPlaylists().then((playlists) => {
         dispatch({
           type: "SET_PLAYLIST",
           playlists: playlists,
         });
       });
+
+      spotify.getPlaylist().then((response) =>
+        dispatch({
+          type: "SET_DISCOVER_WEEKLY",
+          discover_weekly: response,
+        })
+      );
     }
   }, []);
   console.log(user);
