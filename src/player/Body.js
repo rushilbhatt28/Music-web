@@ -1,5 +1,6 @@
 import React from "react";
 import "../assets/Body.css";
+import * as actions from "../reducer/constants";
 import { useDataLayerValue } from "../DataLayer";
 import Header from "../Header/Header";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
@@ -8,6 +9,26 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SongRow from "../songRow/SongRow";
 export default function Body({ spotify }) {
   const [{ discover_weekly }, dispatch] = useDataLayerValue();
+
+  const playPlaylist = (id) => {
+    spotify
+      .play({
+        context_uri: `spotify:playlist:0BDUik3bvBdouBM3EaKIB8`,
+      })
+      .then((res) => {
+        spotify.getMyCurrentPlayingTrack().then((r) => {
+          dispatch({
+            type: actions.SET_ITEM,
+            item: r.item,
+          });
+          dispatch({
+            type: actions.SET_PLAYING,
+            playing: true,
+          });
+        });
+      });
+  };
+
   const playSong = (id) => {
     spotify
       .play({
@@ -16,11 +37,11 @@ export default function Body({ spotify }) {
       .then((res) => {
         spotify.getMyCurrentPlayingTrack().then((r) => {
           dispatch({
-            type: "SET_ITEM",
+            type: actions.SET_ITEM,
             item: r.item,
           });
           dispatch({
-            type: "SET_PLAYING",
+            type: actions.SET_PLAYING,
             playing: true,
           });
         });
@@ -37,7 +58,10 @@ export default function Body({ spotify }) {
           <p>{discover_weekly?.description}</p>
           <div className="body__songs">
             <div className="body__icons">
-              <PlayCircleFilledIcon className="body__shuffle" />
+              <PlayCircleFilledIcon
+                className="body__shuffle"
+                onClick={playPlaylist}
+              />
               <FavoriteBorderIcon fontSize="large" />
               <MoreHorizIcon />
             </div>
